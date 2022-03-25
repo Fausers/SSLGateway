@@ -14,7 +14,7 @@ class AirtelController extends Controller
 {
     public function index(Request $request)
     {
-        $myfile = fopen('log/airtel/'.date('m_d_i_s',strtotime(now())).'.json', "w") or die("Unable to open file!");
+        $myfile = fopen('log/airtel/'.date('m_d_h_i',strtotime(now())).'.json', "w") or die("Unable to open file!");
         $txt = $request->getContent();
         fwrite($myfile, $txt);
         fclose($myfile);
