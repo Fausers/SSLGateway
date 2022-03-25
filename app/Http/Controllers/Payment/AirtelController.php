@@ -38,8 +38,8 @@ class AirtelController extends Controller
             "grant_type"=> "client_credentials"
         ];
 
-        $response = Http::withHeaders(['Content-Type' => 'application/json',])
-            ->withBody($request_body)
+        return $response = Http::withHeaders(['Content-Type' => 'application/json',])
+            ->withBody(base64_encode(json_encode($request_body)), 'image/jpeg')
             ->post('https://openapiuat.airtel.africa/auth/oauth2/token');
 
 
