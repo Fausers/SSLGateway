@@ -74,7 +74,8 @@ class AirtelController extends Controller
 
     public function createPush(Request $request)
     {
-        $push = AirtelPush::create($request->all());
+        return 'a';
+        return $push = AirtelPush::create($request->all());
         return response('success','200')->header('Content-Type','application/json');
     }
 }

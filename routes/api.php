@@ -23,4 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->prefix('airtel')->group(function(){
     Route::post('/', [AirtelController::class, 'index'])->name('index');
     Route::post('/login', [AirtelController::class, 'loginToAirtel'])->name('login');
+
+    Route::post('/requestpush', [AirtelController::class, 'createPush'])->name('request_push');
 });

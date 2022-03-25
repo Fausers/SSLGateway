@@ -22,4 +22,11 @@ class AirtelPush extends Model
         'status_code',
         'airtel_money_id'
     ];
+
+    public function devices()
+    {
+        return $this->hasMany(\App\Models\Payment\AirtelPushDevices::class);
+    }
+
+
 }
