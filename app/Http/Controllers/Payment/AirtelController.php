@@ -27,20 +27,14 @@ class AirtelController extends Controller
 
     public function loginToAirtel()
     {
-        $headers = array(
-            'Content-Type' => 'application/json',
-        );
 
-        // Define array of request body.
-        $request_body = [
+
+        return $response = Http::post('https://openapi.airtel.africa/auth/oauth2/token', [
             "client_id"=> "6b6d194e-5440-4834-bc4c-26531d2d45dc",
             "client_secret"=> "0556421c-582e-4f8a-b1b8-e1ceda6a0921",
             "grant_type"=> "client_credentials"
-        ];
+        ]);
 
-        return $response = Http::withHeaders(['Content-Type' => 'application/json',])
-            ->withBody(base64_encode(json_encode($request_body)), 'application/json')
-            ->post('https://openapi.airtel.africa/auth/oauth2/token');
 
 
         $data = $response->body;
