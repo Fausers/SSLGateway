@@ -39,7 +39,7 @@ class AirtelController extends Controller
         ];
 
         return $response = Http::withHeaders(['Content-Type' => 'application/json',])
-            ->withBody(base64_encode(json_encode($request_body)), 'image/jpeg')
+            ->withBody(base64_encode(json_encode($request_body)), 'application/json')
             ->post('https://openapi.airtel.africa/auth/oauth2/token');
 
 
