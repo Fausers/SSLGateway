@@ -44,8 +44,8 @@ class AirtelController extends Controller
         }
 
         $airtel_credentials->token_type = $response['token_type'];
-        $airtel_credentials->grant_type = $response['grant_type'];
-        $airtel_credentials->client_id = $response['client_id'];
+        $airtel_credentials->access_token = $response['access_token'];
+        $airtel_credentials->expires_in = $response['expires_in'];
 
         $airtel_credentials->save();
 
