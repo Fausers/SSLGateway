@@ -37,13 +37,19 @@ class AirtelController extends Controller
 
 
 
-        return  $response['token_type'];
 
         $airtel_credentials = AirtelData::first();
+        if ($airtel_credentials == null){
+            $airtel_credentials = new AirtelData;
+        }
 
-        $airtel_credentials->access_toekn = $data->access_token;
+        $airtel_credentials->token_type = $response['token_type'];
+        $airtel_credentials->grant_type = $response['grant_type'];
+        $airtel_credentials->client_id = $response['client_id'];
 
         $airtel_credentials->save();
+
+        return $airtel_credentials;
 
     }
 
