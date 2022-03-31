@@ -37,7 +37,7 @@ class AirtelController extends Controller
 
 
 
-        return $data = $response->token_type;
+        return $data = $response->body;
 
         $airtel_credentials = AirtelData::first();
 
