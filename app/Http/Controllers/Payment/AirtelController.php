@@ -21,7 +21,7 @@ class AirtelController extends Controller
 
         $response = ['data'=>["first_name"=> "Dealer","first_name"=> "Dealer"]];
         Log::info($request->getContent());
-    
+
         return response('success','200')->header('Content-Type','application/json');
     }
 
@@ -33,14 +33,14 @@ class AirtelController extends Controller
 
         // Define array of request body.
         $request_body = [
-            "client_id"=> "c3d4607a-2be4-4c6e-bc48-c0296181782b",
-            "client_secret"=> "1695c07b-ca35-44e1-bb23-fe02b214daed",
+            "client_id"=> "6b6d194e-5440-4834-bc4c-26531d2d45dc",
+            "client_secret"=> "0556421c-582e-4f8a-b1b8-e1ceda6a0921",
             "grant_type"=> "client_credentials"
         ];
 
         return $response = Http::withHeaders(['Content-Type' => 'application/json',])
             ->withBody(base64_encode(json_encode($request_body)), 'image/jpeg')
-            ->post('https://openapiuat.airtel.africa/auth/oauth2/token');
+            ->post('https://openapi.airtel.africa/auth/oauth2/token');
 
 
         $data = $response->body;
@@ -50,7 +50,7 @@ class AirtelController extends Controller
         $airtel_credentials->access_toekn = $data->access_token;
 
         $airtel_credentials->save();
-            
+
     }
 
 
