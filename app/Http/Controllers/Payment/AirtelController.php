@@ -29,7 +29,7 @@ class AirtelController extends Controller
     {
 
 
-        return $response = Http::post('https://openapi.airtel.africa/auth/oauth2/token', [
+         $response = Http::post('https://openapi.airtel.africa/auth/oauth2/token', [
             "client_id"=> "6b6d194e-5440-4834-bc4c-26531d2d45dc",
             "client_secret"=> "0556421c-582e-4f8a-b1b8-e1ceda6a0921",
             "grant_type"=> "client_credentials"
@@ -37,7 +37,7 @@ class AirtelController extends Controller
 
 
 
-        $data = $response->body;
+        return $data = $response->token_type;
 
         $airtel_credentials = AirtelData::first();
 
