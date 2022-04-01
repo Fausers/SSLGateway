@@ -34,8 +34,9 @@ class CallHomeController extends Controller
         $request['status'] = $request['power'];
         $request['comm_type'] = $request['comm type'];
         $request['command'] = $response;
-        $request['data'] = $response->all();
+        $request['raw_data'] = json_encode($request->all());
 
+//        return $request->all();
         $call_home = CallHome::create($request->all());
 
         foreach ($request['data'] as $data){
