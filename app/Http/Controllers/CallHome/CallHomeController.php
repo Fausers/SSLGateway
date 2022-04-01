@@ -14,6 +14,7 @@ class CallHomeController extends Controller
 {
     public function index(Request $request)
     {
+
         $request['ip'] = $request->ip();
         $asset = AssetStatus::firstOrNew(
             ['ip' => $request['ip']]
@@ -60,6 +61,9 @@ class CallHomeController extends Controller
         }
 
 
+
+        if ($request['ip'] == "192.99.144.91")
+            return "";
 
         return json_encode($response);
     }
