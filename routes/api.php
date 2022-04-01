@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CallHome\CallHomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Payment\AirtelController;
@@ -20,9 +21,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->prefix('airtel')->group(function(){
-    Route::post('/', [AirtelController::class, 'index'])->name('index');
-    Route::get('/login', [AirtelController::class, 'loginToAirtel'])->name('login');
 
-    Route::post('/requestpush', [AirtelController::class, 'createPush'])->name('request_push');
+Route::middleware('auth:sanctum')->group(function(){
+    Route::prefix('airtel')->group(function(){
+        Route::post('/', [AirtelController::class, 'index'])->name('index');
+        Route::get('/airtel_login', [AirtelController::class, 'loginToAirtel'])->name('airtel_login');
+
+        Route::post('/requestpush', [AirtelController::class, 'createPush'])->name('request_push');
+    });
+
+    Route::prefix('callhome')->group(function(){
+       Route::post('/', [CallHomeController::class, 'index'])->name('index');
+       Route::get('/migrate', [CallHomeController::class, 'updateStatus'])->name('migrate');
+    });
 });
+
+
