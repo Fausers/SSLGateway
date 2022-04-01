@@ -94,7 +94,7 @@ class CallHomeController extends Controller
         $asset = AssetStatus::firstOrNew(
                 ['asset_id' => $request['system_id']]
             );
-        return $asset->power = json_decode($request->all(),true);
+        return $asset->power = $request->all();
 
         if ($asset->ip == null){
             $asset->ip = "Asset from WEBI";
