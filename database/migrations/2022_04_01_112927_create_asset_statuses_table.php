@@ -15,9 +15,9 @@ class CreateAssetStatusesTable extends Migration
     {
         Schema::create('asset_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('ip');
-            $table->string('asset_id');
-            $table->string('power');
+            $table->string('ip')->nullable();
+            $table->string('asset_id')->nullable();
+            $table->string('power')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
