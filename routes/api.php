@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('callhome')->group(function(){
        Route::post('/', [CallHomeController::class, 'index'])->name('index');
        Route::get('/migrate', [CallHomeController::class, 'updateStatus'])->name('migrate');
+       Route::post('/update_asset', [CallHomeController::class, 'updateAsset'])->name('update_asset');
     });
 });
 

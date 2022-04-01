@@ -27,10 +27,10 @@ class CallHomeController extends Controller
             $asset->save();
         }
 
-        if ($asset->power == "Enabled"){
-            $response = "SIMUSOLAR OFF";
+        if ($asset->power == "Disabled"){
+            $response = "SimuSolar:  OFF";
         }else{
-            $response = "SIMUSOLAR ON";
+            $response = "SimuSolar:  ON";
         }
 
         $request['status'] = $request['power'];
@@ -66,7 +66,8 @@ class CallHomeController extends Controller
         if ($request['ip'] == "192.99.23.34")
             return "";
 
-        return json_encode($response);
+        return response($response,'200')->header('Content-Type','application/json');
+
     }
 
     public function updateStatus()
@@ -86,6 +87,23 @@ class CallHomeController extends Controller
         }
 
         return "Done";
+    }
+
+    public function updateAsset(Request $request)
+    {
+        $asset = AssetStatus::firstOrNew(
+                ['asset_id' => $request['system_id']]
+            );
+        $asset->power = $request['power'];
+        if ($asset->ip == null){
+            $asset->ip = "Asset from WEBI";
+            $response = "Created Has no IP";
+        }else{
+            $response = "Updated";
+        }
+        $asset->save();
+
+        return response($response,'200')->header('Content-Type','application/json');
 
     }
 }
