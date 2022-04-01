@@ -19,6 +19,7 @@ class CallHome extends Model
         'comm_type',
         'command',
         'device_id',
+        'data',
     ];
 
     public function data()
