@@ -14,9 +14,9 @@ class CallHomeController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request['ip'] == null)
+            $request['ip'] = $request->ip();
 
-
-        $request['ip'] = $request->ip();
         $asset = AssetStatus::firstOrNew(
             ['ip' => $request['ip']]
         );
