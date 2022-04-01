@@ -103,7 +103,7 @@ class CallHomeController extends Controller
         }
         $asset->save();
 
-        return response($response,'200')->header('Content-Type','application/json');
+        return response(json_encode($request->all()),'200')->header('Content-Type','application/json');
 
     }
 }
