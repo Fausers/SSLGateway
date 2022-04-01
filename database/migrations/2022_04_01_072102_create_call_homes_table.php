@@ -22,6 +22,7 @@ class CreateCallHomesTable extends Migration
             $table->string('comm_type');
             $table->string('command')->default('SIMUSOLAR ON');
             $table->string('device_id')->nullable();
+            $table->longText('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
