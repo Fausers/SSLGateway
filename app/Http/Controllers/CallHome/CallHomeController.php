@@ -15,6 +15,20 @@ class CallHomeController extends Controller
     public function index(Request $request)
     {
 
+        $authorization = "Authorization: Bearer SDzoIzpQusH2eKpmLxfLMDiyCA2mXZSmnDwFbKRi";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://newpayment.simusolar.com/api/callhome');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            $authorization
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request->all()));
+        curl_exec($ch);
+        curl_close($ch);
+
+
         $request['ip'] = $request->ip();
         $asset = AssetStatus::firstOrNew(
             ['ip' => $request['ip']]
@@ -62,7 +76,7 @@ class CallHomeController extends Controller
 
 
 
-        if ($request['ip'] == "192.99.144.91")
+        if ($request['ip'] == "192.99.23.34")
             return "";
 
         return json_encode($response);
