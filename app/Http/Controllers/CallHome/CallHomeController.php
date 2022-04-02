@@ -38,7 +38,6 @@ class CallHomeController extends Controller
         $request['command'] = $response;
         $request['raw_data'] = json_encode($request->all());
 
-//        return $request->all();
         $call_home = CallHome::create($request->all());
 
         foreach ($request['data'] as $data){
@@ -58,10 +57,7 @@ class CallHomeController extends Controller
             ];
 
             $info = CallHomeData::create($call_data);
-//            return $data;
         }
-
-
 
         if ($request['ip'] == "192.99.23.34")
             return "";
@@ -94,6 +90,7 @@ class CallHomeController extends Controller
         $asset = AssetStatus::firstOrNew(
                 ['asset_id' => $request['system_id']]
             );
+        return $dt  = str_replace('\\',"",$request->all());
         return $asset->power = $request->all();
 
         if ($asset->ip == null){
