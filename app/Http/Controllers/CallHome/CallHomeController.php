@@ -28,7 +28,7 @@ class CallHomeController extends Controller
         }
 
         if ($asset->power == "Disabled"){
-            $response = "SimuSolar:  OFF";
+            $response = "SimuSolar: OFF";
         }else{
             $response = "SimuSolar:  ON";
         }
@@ -90,8 +90,6 @@ class CallHomeController extends Controller
         $asset = AssetStatus::firstOrNew(
                 ['asset_id' => $request['system_id']]
             );
-        return $dt  = str_replace('\\',"",$request->all());
-        return $asset->power = $request->all();
 
         if ($asset->ip == null){
             $asset->ip = "Asset from WEBI";
