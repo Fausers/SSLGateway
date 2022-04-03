@@ -9,6 +9,7 @@ use App\Models\CallHomeData;
 use App\Models\DataMigrator;
 use App\Models\DevelopmentAssetStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CallHomeController extends Controller
 {
@@ -38,9 +39,12 @@ class CallHomeController extends Controller
         $request['command'] = $response;
         $request['raw_data'] = json_encode($request->all());
 
+
         $call_home = CallHome::create($request->all());
 
         foreach ($request['data'] as $data){
+            $location = $this->deviceLocation();
+
             $call_data = [
                 'call_home_id'=>$call_home->id,
                 'realtime'=>$data[0],
@@ -54,6 +58,8 @@ class CallHomeController extends Controller
                 'ci'=>$data[8],
                 'rssi'=>$data[9],
                 'ber'=>$data[10],
+                'lat'=> $location['lat'],
+                'lon'=> $location['lon']
             ];
 
             $info = CallHomeData::create($call_data);
@@ -63,8 +69,18 @@ class CallHomeController extends Controller
             return "";
 
         return response($response,'200')->header('Content-Type','application/json');
-
     }
+
+    public function deviceLocation($data = null)
+    {
+
+        $location = [
+          'lat' => 1234,
+          'lon' => 1234
+        ];
+        return $location;
+    }
+
 
     public function updateStatus()
     {
@@ -100,6 +116,5 @@ class CallHomeController extends Controller
         $asset->save();
 
         return response(json_encode($response),'200')->header('Content-Type','application/json');
-
     }
 }

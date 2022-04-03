@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\CallHome\CallHomeController;
+use App\Http\Controllers\CallHome\CellIdController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Payment\AirtelController;
@@ -34,6 +36,16 @@ Route::middleware('auth:sanctum')->group(function(){
        Route::post('/', [CallHomeController::class, 'index'])->name('index');
        Route::get('/migrate', [CallHomeController::class, 'updateStatus'])->name('migrate');
        Route::post('/update_asset', [CallHomeController::class, 'updateAsset'])->name('update_asset');
+    });
+
+    Route::prefix('cell_id')->group(function(){
+       Route::post('/', [CellIdController::class, 'index'])->name('index');
+       Route::post('/update', [CellIdController::class, 'addCellID'])->name('update');
+    });
+
+    Route::prefix('air_link')->group(function(){
+       Route::post('/', [AirLinkController::class, 'index'])->name('index');
+       Route::post('/add_device', [AirLinkController::class, 'addDevice'])->name('add_device');
     });
 });
 
