@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('air_link')->group(function(){
        Route::post('/', [AirLinkController::class, 'index'])->name('index');
-       Route::get('/login', [AirLinkController::class, 'login'])->name('login');
+       Route::get('/server_login', [AirLinkController::class, 'login'])->name('server_login');
        Route::post('/add_device', [AirLinkController::class, 'addDevice'])->name('add_device');
     });
 });
