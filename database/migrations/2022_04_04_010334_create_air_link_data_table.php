@@ -18,8 +18,8 @@ class CreateAirLinkDataTable extends Migration
             $table->string('app_url');
             $table->string('username');
             $table->string('password');
-            $table->string('token')->nullable();
-            $table->string('refresh_token')->nullable();
+            $table->longText('token')->nullable();
+            $table->longText('refresh_token')->nullable();
             $table->string('profile_id')->nullable();
             $table->string('group_id')->nullable();
             $table->timestamps();

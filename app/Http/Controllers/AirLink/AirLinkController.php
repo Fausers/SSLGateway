@@ -16,18 +16,25 @@ class AirLinkController extends Controller
         $air_link = AirLinkData::first();
         if ($air_link == null){
             $air_link = new AirLinkData;
-            $air_link->app_url = "http://airlink.enaccess.org/api/auth/token";
+            $air_link->app_url = "http://airlink.enaccess.org/api/auth/login";
             $air_link->username = "webi@simusolar.com";
             $air_link->password = "G*h!Qnt#2QVf4xw";
             $air_link->save();
         }
 
-        return $response = Http::withHeaders([
+         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
         ])->post($air_link->app_url, [
             'username' => $air_link->username,
             'password' => $air_link->password,
         ]);
+
+        $air_link->token = $response['token'];
+        $air_link->refresh_token = $response['refreshToken'];
+
+        $air_link->save();
+
+        return $air_link;
     }
 
     public function addDevice($data = null)
