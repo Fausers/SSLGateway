@@ -16,7 +16,7 @@ class AirLinkController extends Controller
         $air_link = AirLinkData::first();
         if ($air_link == null){
             $air_link = new AirLinkData;
-            $air_link->app_url = "https://airlink.enaccess.org/api/auth/token";
+            $air_link->app_url = "http://airlink.enaccess.org/api/auth/token";
             $air_link->username = "webi@simusolar.com";
             $air_link->password = "G*h!Qnt#2QVf4xw";
             $air_link->save();
