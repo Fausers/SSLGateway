@@ -17,8 +17,8 @@ class AirLinkController extends Controller
         if ($air_link == null){
             $air_link = new AirLinkData;
             $air_link->app_url = "http://airlink.enaccess.org/api/auth/login";
-            $air_link->username = "webi@simusolar.com";
-            $air_link->password = "G*h!Qnt#2QVf4xw";
+            $air_link->username = "callhome@simusolar.com";
+            $air_link->password = "Mwakampya_2022";
             $air_link->save();
         }
 
@@ -35,19 +35,49 @@ class AirLinkController extends Controller
         $air_link->save();
     }
 
-    public function addDevice($data = null)
+    public function addDevice($asset_id,$ip)
     {
-        return $response = Http::withHeaders([
-            'X-Authorization' => 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3ZWJpQHNpbXVzb2xhci5jb20iLCJzY29wZXMiOlsiVEVOQU5UX0FETUlOIl0sInVzZXJJZCI6ImUwYjJjYjMwLTg5YzEtMTFlYy05NWI2LTExYjU4NjZkMGMyMiIsImZpcnN0TmFtZSI6IldlYmkiLCJlbmFibGVkIjp0cnVlLCJpc1B1YmxpYyI6ZmFsc2UsInRlbmFudElkIjoiOTFlYjE0YzAtZjQ2Yy0xMWViLTlkNDktYzczNzc4OGI1Mzk5IiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCIsImlzcyI6InRoaW5nc2JvYXJkLmlvIiwiaWF0IjoxNjQ5MDEzNjczLCJleHAiOjE2NDkwMjI2NzN9.w0ew42XVPRzhdGU5qybMEIQnYwYG5sXDrqcKsz2e7j9hFUbPWA-EWBkmf6eV8fR__oCG69T7FCVUxcqfFTyU_A',
+        a:
+        $air_link = AirLinkData::first();
+        $response = Http::withHeaders([
+            'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
-        ])->post('https://airlink.enaccess.org/api/device', [
-            'name' => 'New Pump',
+        ])->post('http://airlink.enaccess.org/api/device?accessToken='.$ip.'&entityGroupId=2616a100-b3c1-11ec-bf4c-4171b9f48dd2', [
+            'name' => $asset_id,
+            'name' => $asset_id,
             'deviceProfileId' => [
                 'id' => '91f46390-f46c-11eb-9d49-c737788b5399',
                 'entityType' => 'DEVICE_PROFILE',
             ],
         ]);
 
+
+        if ($response->status() == 401){
+            $this->login();
+            goto a;
+        }
+        return $response;
+
+    }
+
+    public function addTelemetry($data)
+    {
+//        return $data['device'];
+        a:
+        $air_link = AirLinkData::first();
+        $response = Http::withHeaders([
+            'X-Authorization' => 'Bearer '.$air_link->token,
+            'Content-Type' => 'application/json'
+        ])->post('http://airlink.enaccess.org/api/v1/'.$data['device_id'].'/attributes', [
+            'latitude' => '-6.732492',
+            'longitude' => '39.217579',
+        ]);
+
+        if ($response->status() == 401){
+            $this->login();
+            goto a;
+        }
+        return $response;
     }
 
 }

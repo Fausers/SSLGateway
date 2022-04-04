@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CallHome;
 
+use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\Controller;
 use App\Models\CallHome;
 use App\Models\CallHome\AssetStatus;
@@ -41,6 +42,13 @@ class CallHomeController extends Controller
 
 
         $call_home = CallHome::create($request->all());
+
+        $asset_data = [
+            'device_id' => $request['ip']
+        ];
+
+        return (new \App\Http\Controllers\AirLink\AirLinkController)->addTelemetry($asset_data);
+        return (new \App\Http\Controllers\AirLink\AirLinkController)->addDevice($asset->asset_id,$request['ip']);
 
         foreach ($request['data'] as $data){
             $location = $this->deviceLocation();
@@ -112,6 +120,7 @@ class CallHomeController extends Controller
             $response = "Created Has no IP";
         }else{
             $response = "Updated";
+            $asset->power = $request['power'];
         }
         $asset->save();
 
