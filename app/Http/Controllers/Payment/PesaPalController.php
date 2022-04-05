@@ -35,6 +35,7 @@ class PesaPalController extends Controller
                 $code = '015';
                 $RESULT = 'TF';
             }else{
+                $this->sendToWebi($jdata);
                 $serviceStatus = 'SUCCESSFUL';
                 $code = '000';
                 $RESULT = 'TS';
@@ -55,7 +56,6 @@ class PesaPalController extends Controller
             'MSISDN' => $jdata['MSISDN'],
             'AGTXNID' => $jdata['AGTXNID']);
 
-//        return $this->sendToWebi($jdata);
         $this->save($jdata,$serviceStatus,$RESULT);
         $response = $this->createResponse($initial_response);
 
@@ -112,21 +112,30 @@ class PesaPalController extends Controller
         return $output;
     }
 
-    public function sendToWebi($job = null)
+    public function sendToWebi($data)
     {
+        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
+        if (strpos($phone,"256") == 0){
+            $currency = "UGX";
+            $country = "Uganda";
+        }else{
+            $currency = "TZS";
+            $country = "Tanzania";
+        }
+
         $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/B/records/";
 
         $data = [
             'fields'=>[
-                'paymentReference' => 19950315,
-                "amount" => 500,
-                "currency" => "TZS",
-                "ssl_transaction_id" => "DemoPaymentAA",
-                "country" => "TANZANIA",
-                "financialServiceProvider" => "paymentGateWay",
-                "payer" => "255765204506",
-                "date" => "05/04/2022",
-                "transactionId" => "DemoPaymentAA"
+                'paymentReference' => $data['CUSTOMERREFERENCEID'],
+                "amount" => $data['COMPANYNAME'],
+                "currency" => $currency,
+                "ssl_transaction_id" => $data['TXNID'],
+                "country" => $country,
+                "financialServiceProvider" => $data['COMPANYNAME'],
+                "payer" => $phone,
+                "date" => date('d/m/Y',strtotime(now())),
+                "transactionId" => $data['TXNID']
             ],
         ];
 
