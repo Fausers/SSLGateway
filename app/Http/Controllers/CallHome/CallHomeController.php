@@ -50,6 +50,7 @@ class CallHomeController extends Controller
 //        return (new \App\Http\Controllers\AirLink\AirLinkController)->addTelemetry($asset_data);
 //        return (new \App\Http\Controllers\AirLink\AirLinkController)->addDevice($asset->asset_id,$request['ip']);
 
+        if (is_array($request['data']))
         foreach ($request['data'] as $data){
             $location = $this->deviceLocation();
 

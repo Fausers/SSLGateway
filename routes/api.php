@@ -3,6 +3,7 @@
 use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\CallHome\CallHomeController;
 use App\Http\Controllers\CallHome\CellIdController;
+use App\Http\Controllers\Payment\PesaPalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Payment\AirtelController;
@@ -30,6 +31,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/airtel_login', [AirtelController::class, 'loginToAirtel'])->name('airtel_login');
 
         Route::post('/requestpush', [AirtelController::class, 'createPush'])->name('request_push');
+    });
+
+    Route::prefix('pesapal')->group(function(){
+        Route::post('/', [PesaPalController::class, 'index'])->name('index');
+
     });
 
     Route::prefix('callhome')->group(function(){
