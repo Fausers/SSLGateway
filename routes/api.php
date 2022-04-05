@@ -3,6 +3,7 @@
 use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\CallHome\CallHomeController;
 use App\Http\Controllers\CallHome\CellIdController;
+use App\Http\Controllers\Payment\PaymentReferenceController;
 use App\Http\Controllers\Payment\PesaPalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +36,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('pesapal')->group(function(){
         Route::post('/', [PesaPalController::class, 'index'])->name('index');
-
     });
 
     Route::prefix('callhome')->group(function(){
@@ -54,6 +54,13 @@ Route::middleware('auth:sanctum')->group(function(){
        Route::get('/server_login', [AirLinkController::class, 'login'])->name('server_login');
        Route::post('/add_device', [AirLinkController::class, 'addDevice'])->name('add_device');
     });
+
+
+    Route::prefix('payment_reference')->group(function(){
+       Route::post('/', [PaymentReferenceController::class, 'index'])->name('index');
+       Route::post('/create', [PaymentReferenceController::class, 'create'])->name('create');
+    });
+
 });
 
 
