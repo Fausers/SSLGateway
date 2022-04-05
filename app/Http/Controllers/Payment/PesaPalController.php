@@ -35,7 +35,7 @@ class PesaPalController extends Controller
                 $code = '015';
                 $RESULT = 'TF';
             }else{
-                return $this->sendToWebi($jdata);
+                $this->sendToWebi($jdata);
                 $serviceStatus = 'SUCCESSFUL';
                 $code = '000';
                 $RESULT = 'TS';
