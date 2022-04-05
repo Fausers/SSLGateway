@@ -128,7 +128,7 @@ class PesaPalController extends Controller
         $data = [
             'fields'=>[
                 'paymentReference' => $data['CUSTOMERREFERENCEID'],
-                "amount" => $data['COMPANYNAME'],
+                "amount" => $data['AMOUNT'],
                 "currency" => $currency,
                 "ssl_transaction_id" => $data['TXNID'],
                 "country" => $country,
