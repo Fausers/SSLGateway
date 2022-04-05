@@ -123,9 +123,9 @@ class PesaPalController extends Controller
                 "currency" => "TZS",
                 "ssl_transaction_id" => "DemoPaymentAA",
                 "country" => "TANZANIA",
-                "financialServiceProvider" => "CRDB Bank",
+                "financialServiceProvider" => "paymentGateWay",
                 "payer" => "255765204506",
-                "date" => "04/04/2022",
+                "date" => "05/04/2022",
                 "transactionId" => "DemoPaymentAA"
             ],
         ];
