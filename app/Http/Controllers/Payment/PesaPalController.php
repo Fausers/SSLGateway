@@ -54,7 +54,7 @@ class PesaPalController extends Controller
             'MSISDN' => $jdata['MSISDN'],
             'AGTXNID' => $jdata['AGTXNID']);
 
-        $this->save($jdata,$code,$RESULT);
+        $this->save($jdata,$serviceStatus,$RESULT);
         $response = $this->createResponse($initial_response);
 
         return response($response,'201')->header('Content-Type','application/xml');
