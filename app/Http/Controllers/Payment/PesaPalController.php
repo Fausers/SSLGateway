@@ -131,7 +131,7 @@ class PesaPalController extends Controller
         ];
 
         return $response = Http::withHeaders([
-            'Authorization' => 'Bearer 079cdda0-e7e5-11eb-9c43-a5b12dd054ec',
+            'Authorization' => 'Bearer 24f44360-8656-11ec-adbe-11a9b089aec7',
             'Content-Type' => 'application/json'
         ])->post($url, [
             $data
