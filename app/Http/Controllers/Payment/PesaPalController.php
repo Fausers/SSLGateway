@@ -35,7 +35,7 @@ class PesaPalController extends Controller
                 $code = '015';
                 $RESULT = 'TF';
             }else{
-                $this->sendToWebi($jdata);
+                return $this->sendToWebi($jdata);
                 $serviceStatus = 'SUCCESSFUL';
                 $code = '000';
                 $RESULT = 'TS';
@@ -115,7 +115,7 @@ class PesaPalController extends Controller
     public function sendToWebi($data)
     {
         $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
-        if (strpos($phone,"256") == 0){
+        if (strpos($phone,"256") !== false){
             $currency = "UGX";
             $country = "Uganda";
         }else{
