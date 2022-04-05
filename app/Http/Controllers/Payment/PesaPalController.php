@@ -7,6 +7,7 @@ use App\Models\Payment\Payment;
 use App\Models\Payment\PaymentReference;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 
 
@@ -30,7 +31,7 @@ class PesaPalController extends Controller
         if (isset($values)){
             $payment = Payment::where('trans_id',$jdata['TXNID'])->first();
             if(isset($payment)){
-                $serviceStatus = 'Duplicate payment';
+                $serviceStatus = 'DUPLICATE';
                 $code = '015';
                 $RESULT = 'TF';
             }else{
@@ -39,7 +40,7 @@ class PesaPalController extends Controller
                 $RESULT = 'TS';
             }
         }else{
-            $serviceStatus = 'Invalid Customer Reference Number';
+            $serviceStatus = 'INVALID REFERENCE';
             $code = '010';
             $RESULT = 'TF';
         }
@@ -54,6 +55,7 @@ class PesaPalController extends Controller
             'MSISDN' => $jdata['MSISDN'],
             'AGTXNID' => $jdata['AGTXNID']);
 
+        return $this->sendToWebi($jdata);
         $this->save($jdata,$serviceStatus,$RESULT);
         $response = $this->createResponse($initial_response);
 
@@ -62,6 +64,13 @@ class PesaPalController extends Controller
 
     public function save($data,$status,$RESULT)
     {
+        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
+        if (strpos($phone,"256") == 0){
+            $country = "UG";
+        }else{
+            $country = "TZ";
+        }
+
         $payment = new Payment();
            $payment->service_id = $data['COMPANYNAME'];
            $payment->trans_id = $data['TXNID'];
@@ -69,9 +78,9 @@ class PesaPalController extends Controller
            $payment->payment_status = $status;
            $payment->reference_no = $data['CUSTOMERREFERENCEID'];
            $payment->payment_receipt = $data['CUSTOMERREFERENCEID'];
-           $payment->msnid = $data['MSISDN'];
+           $payment->msnid = $phone;
 //           $payment->trans_date = $data['TYPE'];
-           $payment->opco = "UG";
+           $payment->opco = $country;
            $payment->payment_status_desc = $RESULT;
 
        return $payment->save();
@@ -101,5 +110,32 @@ class PesaPalController extends Controller
 
         $output=$dom->saveXML();
         return $output;
+    }
+
+    public function sendToWebi($job = null)
+    {
+        $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/B/records/";
+
+        $data = [
+            'fields'=>[
+                'paymentReference' => 19950315,
+                "amount" => 500,
+                "currency" => "TZS",
+                "ssl_transaction_id" => "DemoPaymentAA",
+                "country" => "TANZANIA",
+                "financialServiceProvider" => "CRDB Bank",
+                "payer" => "255765204506",
+                "date" => "04/04/2022",
+                "transactionId" => "DemoPaymentAA"
+            ],
+        ];
+
+        return $response = Http::withHeaders([
+            'X-Authorization' => 'Bearer 079cdda0-e7e5-11eb-9c43-a5b12dd054ec',
+            'Content-Type' => 'application/json'
+        ])->post($url, [
+            $data
+        ]);
+
     }
 }
