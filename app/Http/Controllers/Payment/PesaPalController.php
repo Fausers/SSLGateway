@@ -55,7 +55,7 @@ class PesaPalController extends Controller
             'MSISDN' => $jdata['MSISDN'],
             'AGTXNID' => $jdata['AGTXNID']);
 
-        return $this->sendToWebi($jdata);
+//        return $this->sendToWebi($jdata);
         $this->save($jdata,$serviceStatus,$RESULT);
         $response = $this->createResponse($initial_response);
 
