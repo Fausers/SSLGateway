@@ -56,7 +56,12 @@ class CallHomeController extends Controller
 
         if (is_array($request['data']))
         foreach ($request['data'] as $data){
-            $location = $this->deviceLocation();
+            $lat = $lon = null;
+            $cell_data = (new CellIdController)->locateTower($data[8]);
+            if (isset($cell_data)){
+                $lon = $cell_data->lon;
+                $lat = $cell_data->lat;
+            }
 
             $call_data = [
                 'call_home_id'=>$call_home->id,
@@ -71,8 +76,8 @@ class CallHomeController extends Controller
                 'ci'=>$data[8],
                 'rssi'=>$data[9],
                 'ber'=>$data[10],
-                'lat'=> $location['lat'],
-                'lon'=> $location['lon']
+                'lat'=> $lat,
+                'lon'=> $lon
             ];
 
             $info = CallHomeData::create($call_data);

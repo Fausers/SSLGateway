@@ -24,7 +24,7 @@ class CellIdController extends Controller
 
     public function locateTower($data)
     {
-        $tower = CellId::where('mcc',$data['mcc'])->where('cell',$data['ci'])->get();
+        $tower = CellId::where('cell',$data)->first();
         return $tower;
     }
 }

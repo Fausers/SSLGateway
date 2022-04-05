@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('cell_id')->group(function(){
        Route::post('/', [CellIdController::class, 'index'])->name('index');
        Route::post('/update', [CellIdController::class, 'addCellID'])->name('update');
+       Route::post('/locate', [CellIdController::class, 'locateTower'])->name('locate');
     });
 
     Route::prefix('air_link')->group(function(){
