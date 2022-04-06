@@ -7,9 +7,16 @@ use App\Models\AirLink\AirLinkData;
 use App\Models\Payment\AirtelData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PhpMqtt\Client\Facades\MQTT;
 
 class AirLinkController extends Controller
 {
+
+    public function mqtt()
+    {
+        $res = MQTT::publish('v1/devices/me/telemetry', 'Hello World!');
+        return $res;
+    }
 
     public function login()
     {
@@ -22,7 +29,7 @@ class AirLinkController extends Controller
             $air_link->save();
         }
 
-         $response = Http::withHeaders([
+        $response = Http::withHeaders([
             'Content-Type' => 'application/json'
         ])->post($air_link->app_url, [
             'username' => $air_link->username,
@@ -44,7 +51,6 @@ class AirLinkController extends Controller
             'Content-Type' => 'application/json'
         ])->post('http://airlink.enaccess.org/api/device?accessToken='.$ip.'&entityGroupId=2616a100-b3c1-11ec-bf4c-4171b9f48dd2', [
             'name' => $asset_id,
-            'name' => $asset_id,
             'deviceProfileId' => [
                 'id' => '91f46390-f46c-11eb-9d49-c737788b5399',
                 'entityType' => 'DEVICE_PROFILE',
@@ -60,17 +66,18 @@ class AirLinkController extends Controller
 
     }
 
-    public function addTelemetry($data)
+    public function addTelemetry($asset,$time,$data)
     {
-//        return $data['device'];
         a:
         $air_link = AirLinkData::first();
         $response = Http::withHeaders([
             'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
-        ])->post('http://airlink.enaccess.org/api/v1/'.$data['device_id'].'/attributes', [
-            'latitude' => '-6.732492',
-            'longitude' => '39.217579',
+        ])->post('http://airlink.enaccess.org/api/v1/'.$asset['ip'].'/telemetry', [
+            'ts' => $time.'000',
+            'values' =>
+              $data
+            ,
         ]);
 
         if ($response->status() == 401){

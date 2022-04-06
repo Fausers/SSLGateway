@@ -11,9 +11,12 @@ use App\Models\DataMigrator;
 use App\Models\DevelopmentAssetStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PhpMqtt\Client\Facades\MQTT;
 
 class CallHomeController extends Controller
 {
+
+
     public function index(Request $request)
     {
         if ($request['ip'] == null)
@@ -48,11 +51,11 @@ class CallHomeController extends Controller
         $call_home = CallHome::create($request->all());
 
         $asset_data = [
-            'device_id' => $request['ip']
+            'ip' => $request['ip']
         ];
 
-//        return (new \App\Http\Controllers\AirLink\AirLinkController)->addTelemetry($asset_data);
-//        return (new \App\Http\Controllers\AirLink\AirLinkController)->addDevice($asset->asset_id,$request['ip']);
+
+        (new AirLinkController)->addDevice($asset->asset_id,$request['ip']);
 
         if (is_array($request['data']))
         foreach ($request['data'] as $data){
@@ -79,6 +82,8 @@ class CallHomeController extends Controller
                 'lat'=> $lat,
                 'lon'=> $lon
             ];
+
+            (new AirLinkController)->addTelemetry($asset_data,$data[0],$call_data);
 
             $info = CallHomeData::create($call_data);
         }

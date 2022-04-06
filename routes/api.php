@@ -52,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('air_link')->group(function(){
        Route::post('/', [AirLinkController::class, 'index'])->name('index');
+       Route::post('/mqtt', [AirLinkController::class, 'mqtt'])->name('mqtt');
        Route::get('/server_login', [AirLinkController::class, 'login'])->name('server_login');
        Route::post('/add_device', [AirLinkController::class, 'addDevice'])->name('add_device');
     });
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function(){
        Route::post('/', [PaymentReferenceController::class, 'index'])->name('index');
        Route::post('/create', [PaymentReferenceController::class, 'create'])->name('create');
     });
+
 
 });
 
