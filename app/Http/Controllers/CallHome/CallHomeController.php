@@ -80,7 +80,7 @@ class CallHomeController extends Controller
                 'rssi'=>$data[9],
                 'ber'=>$data[10],
                 'lat'=> $lat,
-                'lon'=> $lat,
+                'lon'=> $lon,
                 'latitude'=> floatval($lat),
                 'longitude'=> floatval($lon),
                 'status' => $response
