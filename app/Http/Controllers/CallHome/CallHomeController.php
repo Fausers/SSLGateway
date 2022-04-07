@@ -82,7 +82,8 @@ class CallHomeController extends Controller
                 'lat'=> $lat,
                 'lon'=> $lat,
                 'latitude'=> floatval($lat),
-                'longitude'=> floatval($lon)
+                'longitude'=> floatval($lon),
+                'status' => $response
             ];
 
             (new AirLinkController)->addTelemetry($asset_data,$data[0],$call_data);
