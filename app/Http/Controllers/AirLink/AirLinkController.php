@@ -74,7 +74,7 @@ class AirLinkController extends Controller
             'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
         ])->post('http://airlink.enaccess.org/api/v1/'.$asset['ip'].'/telemetry', [
-            'ts' => $time.'000',
+            'ts' => $time,
             'values' =>
               $data
             ,
