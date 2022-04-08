@@ -86,7 +86,7 @@ class CallHomeController extends Controller
                 'status' => $response
             ];
 
-//            (new AirLinkController)->addTelemetry($asset_data,$data[0],$call_data);
+            (new AirLinkController)->addTelemetry($asset_data,$data[0],$call_data);
 
             $info = CallHomeData::create($call_data);
         }
