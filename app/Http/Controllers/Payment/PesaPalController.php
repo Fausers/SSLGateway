@@ -117,10 +117,10 @@ class PesaPalController extends Controller
         $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
         if (strpos($phone,"256") !== false){
             $currency = "UGX";
-            $country = "Uganda";
+            $country = "UGANDA";
         }else{
             $currency = "TZS";
-            $country = "Tanzania";
+            $country = "TANZANIA";
         }
 
         $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/B/records/";
