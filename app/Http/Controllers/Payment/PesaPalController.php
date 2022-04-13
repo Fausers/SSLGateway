@@ -21,8 +21,13 @@ class PesaPalController extends Controller
         $data = json_encode($payload);
         $jdata =  json_decode($data,true);
 
+        if (strpos($jdata['CUSTOMERREFERENCEID'],"TULI") !== false){
+            $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
+        }else{
+            $jdata['paymentReference'] = "TULI".$jdata['CUSTOMERREFERENCEID'];
+        }
         //        Check Existence Of account  Redis
-        $values = PaymentReference::where('payment_reference',$jdata['CUSTOMERREFERENCEID'])->first();
+        $values = PaymentReference::where('payment_reference',$jdata['paymentReference'])->first();
 
         $RESULT = null;
         $serviceStatus = null;
@@ -48,7 +53,7 @@ class PesaPalController extends Controller
 
         $initial_response =  array(
             'TYPE' => $jdata['COMPANYNAME'],
-            'REFID' => $jdata['CUSTOMERREFERENCEID'],
+            'REFID' => $jdata['paymentReference'],
             'TXNID' => $jdata['AGTXNID'],
             'RESULT' => $RESULT,
             'ERRORCODE' => $code,
@@ -65,7 +70,7 @@ class PesaPalController extends Controller
     public function save($data,$status,$RESULT)
     {
         $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
-        if (strpos($phone,"256") == 0){
+        if (strpos($phone,"256") !== false){
             $country = "UG";
         }else{
             $country = "TZ";
@@ -76,8 +81,8 @@ class PesaPalController extends Controller
            $payment->trans_id = $data['TXNID'];
            $payment->amount = $data['AMOUNT'];
            $payment->payment_status = $status;
-           $payment->reference_no = $data['CUSTOMERREFERENCEID'];
-           $payment->payment_receipt = $data['CUSTOMERREFERENCEID'];
+           $payment->reference_no = $data['paymentReference'];
+           $payment->payment_receipt = $data['paymentReference'];
            $payment->msnid = $phone;
 //           $payment->trans_date = $data['TYPE'];
            $payment->opco = $country;
@@ -125,16 +130,9 @@ class PesaPalController extends Controller
 
         $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/B/records/";
 
-
-        if (strpos($data['CUSTOMERREFERENCEID'],"TULI") !== false){
-            $paymentReference = $data['CUSTOMERREFERENCEID'];
-        }else{
-            $paymentReference = "TULI".$data['CUSTOMERREFERENCEID'];
-        }
-
         $data = [
             'fields'=>[
-                'paymentReference' => $paymentReference,
+                'paymentReference' => $data['paymentReference'],
                 "amount" => $data['AMOUNT'],
                 "currency" => $currency,
                 "ssl_transaction_id" => $data['TXNID'],
