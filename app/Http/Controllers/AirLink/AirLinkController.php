@@ -14,8 +14,13 @@ class AirLinkController extends Controller
 
     public function mqtt()
     {
-        $res = MQTT::publish('v1/devices/me/telemetry', 'Hello World!');
-        return $res;
+        $mqtt = MQTT::connection();
+
+        $mqtt->publish('v1/devices/me/telemetry', '"temperature":10', 1);
+
+        return "Done";
+
+//        return MQTT::publish('v1/devices/me/telemetry', '"temperature":10');
     }
 
     public function login()

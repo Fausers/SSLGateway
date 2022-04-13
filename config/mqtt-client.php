@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default_connection' => 'default',
+    'default_connection' => 'thingsboard',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,11 +106,9 @@ return [
         ],
 
         'thingsboard' => [
-        'host' => 'https://airlink.enaccess.org',
-          'port' => 80,
-          'security' =>[
-              'accessToken' => 'SosJMFX4oAdOQDRBao0o',
-          ],
+        'host' => '178.62.79.211',
+          'port' => 1883,
+            'accessToken' => 'U2Cg1JKJqkmiGsCkGUxR',
         ]
 
     ],

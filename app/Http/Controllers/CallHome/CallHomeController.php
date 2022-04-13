@@ -97,16 +97,6 @@ class CallHomeController extends Controller
         return response($response,'200')->header('Content-Type','application/json');
     }
 
-    public function deviceLocation($data = null)
-    {
-
-        $location = [
-          'lat' => 1234,
-          'lon' => 1234
-        ];
-        return $location;
-    }
-
 
     public function updateStatus()
     {
