@@ -125,9 +125,16 @@ class PesaPalController extends Controller
 
         $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/B/records/";
 
+
+        if (strpos($data['CUSTOMERREFERENCEID'],"TULI") !== false){
+            $paymentReference = $data['CUSTOMERREFERENCEID'];
+        }else{
+            $paymentReference = "TULI".$data['CUSTOMERREFERENCEID'];
+        }
+
         $data = [
             'fields'=>[
-                'paymentReference' => $data['CUSTOMERREFERENCEID'],
+                'paymentReference' => $paymentReference,
                 "amount" => $data['AMOUNT'],
                 "currency" => $currency,
                 "ssl_transaction_id" => $data['TXNID'],
