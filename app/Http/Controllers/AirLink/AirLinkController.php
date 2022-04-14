@@ -14,13 +14,7 @@ class AirLinkController extends Controller
 
     public function mqtt()
     {
-        $mqtt = MQTT::connection();
-
-        $mqtt->publish('v1/devices/me/telemetry', '"temperature":10', 1);
-
-        return "Done";
-
-//        return MQTT::publish('v1/devices/me/telemetry', '"temperature":10');
+        return MQTT::publish('v1/devices/me/telemetry', '"temperature":10');
     }
 
     public function login()
@@ -71,25 +65,19 @@ class AirLinkController extends Controller
 
     }
 
-    public function addTelemetry($asset,$time,$data)
+    public function addTelemetry($asset,$data)
     {
         a:
         $air_link = AirLinkData::first();
         $response = Http::withHeaders([
             'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
-        ])->post('http://airlink.enaccess.org/api/v1/'.$asset['ip'].'/telemetry', [
-            'ts' => $time,
-            'values' =>
-              $data
-            ,
-        ]);
+        ])->post('http://airlink.enaccess.org/api/v1/'.$asset['ip'].'/telemetry', $data);
 
         if ($response->status() == 401){
             $this->login();
             goto a;
         }
-        return $response;
     }
 
 }

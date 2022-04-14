@@ -106,9 +106,11 @@ return [
         ],
 
         'thingsboard' => [
-        'host' => '178.62.79.211',
-          'port' => 1883,
-            'accessToken' => 'U2Cg1JKJqkmiGsCkGUxR',
+            'host' => '178.62.79.211',
+            'port' => 1883,
+            'security' =>[
+                'type' => 'anonymous',
+            ],
         ]
 
     ],

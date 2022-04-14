@@ -61,6 +61,7 @@ class CallHomeController extends Controller
         foreach ($request['data'] as $data){
             $lat = $lon = null;
             $cell_data = (new CellIdController)->locateTower($data[8]);
+            $request['lat'] = 99;
             if (isset($cell_data)){
                 $lon = $cell_data->lon;
                 $lat = $cell_data->lat;
@@ -81,15 +82,22 @@ class CallHomeController extends Controller
                 'ber'=>$data[10],
                 'lat'=> $lat,
                 'lon'=> $lon,
-                'latitude'=> floatval($lat),
-                'longitude'=> floatval($lon),
+                'latitude'=> $lat,
+                'longitude'=> $lon,
                 'status' => $response
             ];
 
-//            (new AirLinkController)->addTelemetry($asset_data,$data[0],$call_data);
+            $tel = [
+                'ts' => $data[0].'000',
+                'values' => $call_data
+            ];
+
+            $dd[] = $tel;
 
             $info = CallHomeData::create($call_data);
         }
+
+        (new AirLinkController)->addTelemetry($asset_data,$dd);
 
         if ($request['ip'] == "192.99.23.34")
             return "";
