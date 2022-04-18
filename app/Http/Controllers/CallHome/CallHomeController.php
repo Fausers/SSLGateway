@@ -97,7 +97,7 @@ class CallHomeController extends Controller
             $info = CallHomeData::create($call_data);
         }
 
-//        (new AirLinkController)->addTelemetry($asset_data,$dd);
+        (new AirLinkController)->addTelemetry($asset_data,$dd);
 
         if ($request['ip'] == "192.99.23.34")
             return "";
