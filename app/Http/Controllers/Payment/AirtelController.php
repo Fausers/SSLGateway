@@ -102,10 +102,10 @@ class AirtelController extends Controller
             $airtel_response->response_code = $response['status']['response_code'];
             $airtel_response->success = $response['status']['success'];
 
-            return $airtel_response;
+            $airtel_response->save();
         }
 
-        return $response->status();
+        return response('Waiting Response','200')->header('Content-Type','application/json');
     }
 
 
