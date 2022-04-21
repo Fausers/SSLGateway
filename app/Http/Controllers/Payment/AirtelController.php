@@ -62,12 +62,12 @@ class AirtelController extends Controller
         $url = "https://openapi.airtel.africa/merchant/v1/payments/";
         $airtel_credentials = AirtelData::first();
 
-        $body = [
+        return $body = [
             "reference"=>$request->reference,
             "subscriber"=>[
                 "country"=>"$request->country",
                 "currency"=>"$request->currency",
-                "msisdn"=>$request->msnid
+                "msisdn"=> $request->msisnd
             ],
             "transaction"=>[
                 "amount"=> $request->amount,
