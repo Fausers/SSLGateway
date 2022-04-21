@@ -77,12 +77,14 @@ class AirtelController extends Controller
             ]
         ];
 
-        return $response = Http::withHeaders([
+        $response = Http::withHeaders([
             'Authorization' => $airtel_credentials->access_token,
             'Content-Type' => 'application/json'
         ])->post($url, [
             $body
         ]);
+
+        return $response->status();
 
         if ($response->status() == 401){
             $this->loginToAirtel();
