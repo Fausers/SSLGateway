@@ -81,7 +81,7 @@ class AirtelController extends Controller
             'Authorization' => 'Bearer '. $airtel_credentials->access_token,
             'Content-Type' => 'application/json'
         ])->post($url, [
-            $body
+            json_encode($body)
         ]);
 
 
