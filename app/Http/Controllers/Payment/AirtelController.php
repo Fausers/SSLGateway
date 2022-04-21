@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment\Airtel\AirtelResponse;
 use App\Models\Payment\AirtelPushDevices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -91,7 +92,20 @@ class AirtelController extends Controller
             goto a;
         }
 
-        return $response;
+        if ($response->status() == 200){
+            $airtel_response = new AirtelResponse;
+            $airtel_response->airtel_pushes_id = $response->id;
+            $airtel_response->trans_id = $response['data']['transaction']['id'];
+            $airtel_response->message = $response['status']['message'];
+            $airtel_response->status_code = $response['status']['code'];
+            $airtel_response->result_code = $response['status']['result_code'];
+            $airtel_response->response_code = $response['status']['response_code'];
+            $airtel_response->success = $response['status']['success'];
+
+            return $airtel_response;
+        }
+
+        return $response->status();
     }
 
 
