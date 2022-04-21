@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment\AirtelPushDevices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -55,28 +56,65 @@ class AirtelController extends Controller
     }
 
 
-    public function push(Request $request)
+    public function push($request)
     {
-        $body = ["reference"=>$request->reference,
-                "subscriber"=>[
-                    "country"=>"$request->opco",
-                    "currency"=>"$request->opco",
-                    "msisdn"=>$request->msnid
-                ],
-                "transaction"=>[
-                    "amount"=> $request->amount,
-                    "country"=>$request->opco,
-                    "currency"=>$request->opco,
-                    "id"=>$request->trans_id
-                ]
+        a:
+        $url = "https://openapi.airtel.africa/merchant/v1/payments/";
+        $airtel_credentials = AirtelData::first();
+
+        $body = [
+            "reference"=>$request->reference,
+            "subscriber"=>[
+                "country"=>"$request->country",
+                "currency"=>"$request->currency",
+                "msisdn"=>$request->msnid
+            ],
+            "transaction"=>[
+                "amount"=> $request->amount,
+                "country"=>$request->country,
+                "currency"=>$request->currency,
+                "id"=>$request->ssl_id
+            ]
         ];
+
+        $response = Http::withHeaders([
+            'Authorization' => $airtel_credentials->access_token,
+            'Content-Type' => 'application/json'
+        ])->post($url, [
+            $body
+        ]);
+
+        if ($response->status() == 401){
+            $this->loginToAirtel();
+            goto a;
+        }
+
+        return $response;
     }
 
 
     public function createPush(Request $request)
     {
-        return 'a';
-        return $push = AirtelPush::create($request->all());
+        $duplicate = AirtelPush::where('reference',$request['reference'])->first();
+        if (isset($duplicate))
+            return response('Duplicate Reference','400')->header('Content-Type','application/json');
+
+        $push = AirtelPush::create($request->all());
+        if (isset($request['devices'])){
+            foreach ($request['devices'] as $dev){
+                $device = new AirtelPushDevices;
+                $device->push_id = $push->id;
+                $device->amount = $dev['amount'];
+                $device->device_id = $dev['device_id'];
+                $device->refrence = $dev['refrence'];
+                $device->save();
+            }
+        }else{
+            return response('No devices Set','400')->header('Content-Type','application/json');
+        }
+
+        return $this->push($push);
+
         return response('success','200')->header('Content-Type','application/json');
     }
 }

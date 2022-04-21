@@ -30,8 +30,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('airtel')->group(function(){
         Route::post('/', [AirtelController::class, 'index'])->name('index');
         Route::get('/airtel_login', [AirtelController::class, 'loginToAirtel'])->name('airtel_login');
-
-        Route::post('/requestpush', [AirtelController::class, 'createPush'])->name('request_push');
+        Route::post('/request_push', [AirtelController::class, 'createPush'])->name('request_push');
     });
 
     Route::prefix('pesapal')->group(function(){

@@ -18,6 +18,7 @@ class AirtelPushDevices extends Model
         'refrence'
     ];
 
+
     public function devices()
     {
         return $this->belongsTo(\App\Models\Payment\AirtelPush::class);
