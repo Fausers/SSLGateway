@@ -78,7 +78,7 @@ class AirtelController extends Controller
         ];
 
         $response = Http::withHeaders([
-            'Authorization' => $airtel_credentials->access_token,
+            'Authorization' => 'Bearer '. $airtel_credentials->access_token,
             'Content-Type' => 'application/json'
         ])->post($url, [
             $body
