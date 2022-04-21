@@ -90,7 +90,7 @@ class AirtelController extends Controller
             goto a;
         }
 
-        return json_encode($response->all());
+        return json_encode($response->status());
     }
 
 
