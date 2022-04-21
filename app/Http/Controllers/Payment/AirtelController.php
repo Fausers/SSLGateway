@@ -80,9 +80,8 @@ class AirtelController extends Controller
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '. $airtel_credentials->access_token,
             'Content-Type' => 'application/json'
-        ])->post($url, [
-            json_encode($body)
-        ]);
+        ])->post($url, $body
+        );
 
 
         if ($response->status() == 401){
