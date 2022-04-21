@@ -90,7 +90,7 @@ class AirtelController extends Controller
             goto a;
         }
 
-        return $response;
+        return $response->all();
     }
 
 
