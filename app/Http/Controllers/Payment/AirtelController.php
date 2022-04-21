@@ -59,7 +59,7 @@ class AirtelController extends Controller
     public function push($request)
     {
         a:
-        return $url = "https://openapi.airtel.africa/merchant/v1/payments/";
+        $url = "https://openapi.airtel.africa/merchant/v1/payments/";
         $airtel_credentials = AirtelData::first();
 
         $body = [
@@ -77,7 +77,7 @@ class AirtelController extends Controller
             ]
         ];
 
-        $response = Http::withHeaders([
+        return $response = Http::withHeaders([
             'Authorization' => $airtel_credentials->access_token,
             'Content-Type' => 'application/json'
         ])->post($url, [
