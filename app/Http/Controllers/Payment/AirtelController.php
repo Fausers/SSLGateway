@@ -51,7 +51,7 @@ class AirtelController extends Controller
 
         $airtel_credentials->save();
 
-        return $airtel_credentials;
+//        return $airtel_credentials;
 
     }
 
@@ -84,7 +84,6 @@ class AirtelController extends Controller
             $body
         ]);
 
-        return $response->status();
 
         if ($response->status() == 401){
             $this->loginToAirtel();
