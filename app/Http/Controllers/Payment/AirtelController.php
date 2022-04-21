@@ -94,7 +94,7 @@ class AirtelController extends Controller
 
         if ($response->status() == 200){
             $airtel_response = new AirtelResponse;
-            $airtel_response->airtel_pushes_id = $response->id;
+            $airtel_response->airtel_pushes_id = $request->id;
             $airtel_response->trans_id = $response['data']['transaction']['id'];
             $airtel_response->message = $response['status']['message'];
             $airtel_response->status_code = $response['status']['code'];
