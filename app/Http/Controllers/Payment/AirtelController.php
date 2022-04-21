@@ -67,10 +67,10 @@ class AirtelController extends Controller
             "subscriber"=>[
                 "country"=>"$request->country",
                 "currency"=>"$request->currency",
-                "msisdn"=> $request->msisnd
+                "msisdn"=> intval($request->msisnd)
             ],
             "transaction"=>[
-                "amount"=> $request->amount,
+                "amount"=> intval($request->amount),
                 "country"=>$request->country,
                 "currency"=>$request->currency,
                 "id"=>$request->ssl_id
