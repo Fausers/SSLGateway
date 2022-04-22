@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CallHome;
 
 use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessDevices;
 use App\Models\CallHome;
 use App\Models\CallHome\AssetStatus;
 use App\Models\CallHomeData;
@@ -16,6 +17,11 @@ use PhpMqtt\Client\Facades\MQTT;
 class CallHomeController extends Controller
 {
 
+    public function disp()
+    {
+        ProcessDevices::dispatch("Job A",'192.168.22.1');
+        return "s";
+    }
 
     public function index(Request $request)
     {
@@ -97,7 +103,8 @@ class CallHomeController extends Controller
             $info = CallHomeData::create($call_data);
         }
 
-//        (new AirLinkController)->addTelemetry($asset_data,$dd);
+
+        (new AirLinkController)->addTelemetry($asset,$dd);
 
         if ($request['ip'] == "192.99.23.34")
             return "";

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AirLink;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessDevices;
 use App\Models\AirLink\AirLinkData;
 use App\Models\Payment\AirtelData;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use PhpMqtt\Client\Facades\MQTT;
 
 class AirLinkController extends Controller
 {
+
 
     public function mqtt()
     {
@@ -67,17 +69,25 @@ class AirLinkController extends Controller
 
     public function addTelemetry($asset,$data)
     {
+        $count = 0;
         a:
+        $count++;
         $air_link = AirLinkData::first();
         $response = Http::withHeaders([
             'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
-        ])->post('http://airlink.enaccess.org/api/v1/'.$asset['ip'].'/telemetry', $data);
+        ])->post('http://airlink.enaccess.org/api/v1/'.$asset->ip.'/telemetry', $data);
 
-        if ($response->status() == 401){
+        if ($response->status() == 401 && $count < 2){
             $this->login();
             goto a;
         }
+
+        if ($response->status() == 401){
+            $this->addDevice($asset->asset_id,$asset->ip);
+            goto a;
+        }
+
     }
 
 }

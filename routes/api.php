@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function(){
        Route::post('/', [CallHomeController::class, 'index'])->name('index');
        Route::get('/migrate', [CallHomeController::class, 'updateStatus'])->name('migrate');
        Route::post('/update_asset', [CallHomeController::class, 'updateAsset'])->name('update_asset');
+       Route::post('/dispatch', [CallHomeController::class, 'disp'])->name('dispatch');
     });
 
     Route::prefix('cell_id')->group(function(){
