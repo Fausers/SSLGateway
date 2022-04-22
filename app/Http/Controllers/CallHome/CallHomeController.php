@@ -38,6 +38,11 @@ class CallHomeController extends Controller
             $asset->save();
         }
 
+        if ($asset->asset_id == "Unregistered"){
+            $asset->asset_id = "Unregistered-". rand(2000,9000);
+            $asset->save();
+        }
+
         if ($asset->power == "Disabled"){
             $response = "SimuSolar: OFF";
         }else{
@@ -61,7 +66,7 @@ class CallHomeController extends Controller
         ];
 
 
-//        (new AirLinkController)->addDevice($asset->asset_id,$request['ip']);
+        (new AirLinkController)->addDevice($asset->asset_id,$request['ip']);
 
         if (is_array($request['data']))
         foreach ($request['data'] as $data){
