@@ -83,10 +83,10 @@ class AirLinkController extends Controller
             goto a;
         }
 
-        if ($response->status() == 401 && $count < 3){
-            $this->addDevice($asset->asset_id,$asset->ip);
-            goto a;
-        }
+//        if ($response->status() == 401 && $count < 3){
+//            $this->addDevice($asset->asset_id,$asset->ip);
+//            goto a;
+//        }
 
     }
 
