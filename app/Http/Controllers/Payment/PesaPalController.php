@@ -46,6 +46,7 @@ class PesaPalController extends Controller
                 $RESULT = 'TS';
             }
         }else{
+            $this->sendToWebi($jdata);
             $serviceStatus = 'INVALID REFERENCE';
             $code = '010';
             $RESULT = 'TF';
