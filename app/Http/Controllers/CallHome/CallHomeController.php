@@ -66,7 +66,7 @@ class CallHomeController extends Controller
         ];
 
 
-        (new AirLinkController)->addDevice($asset->asset_id,$request['ip']);
+//        (new AirLinkController)->addDevice($asset->asset_id,$request['ip']);
 
         if (is_array($request['data']))
         foreach ($request['data'] as $data){
@@ -109,7 +109,7 @@ class CallHomeController extends Controller
         }
 
 
-//        (new AirLinkController)->addTelemetry($asset,$dd);
+        (new AirLinkController)->addTelemetry($asset,$dd);
 
         if ($request['ip'] == "192.99.23.34")
             return "";
