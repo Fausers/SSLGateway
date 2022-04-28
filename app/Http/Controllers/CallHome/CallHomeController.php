@@ -163,6 +163,9 @@ class CallHomeController extends Controller
             ['ip' => $request['ip']]
         );
 
+        $asset->power = $request['power'];
+        $asset->system_id = $request['system_id'];
+
         if($asset->save()){
             return response(json_encode("Asset Updated"),'200')->header('Content-Type','application/json');
         }else{
