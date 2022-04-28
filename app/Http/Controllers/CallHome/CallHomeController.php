@@ -165,6 +165,9 @@ class CallHomeController extends Controller
 
         $asset->power = $request['power'];
         $asset->asset_id = $request['system_id'];
+        $asset->country = $request['country'];
+        $asset->box_id = $request['box_id'];
+        $asset->access_token = $request['access_token'];
 
         if($asset->save()){
             return response(json_encode("Asset Updated"),'200')->header('Content-Type','application/json');
