@@ -164,7 +164,7 @@ class CallHomeController extends Controller
         );
 
         $asset->power = $request['power'];
-        $asset->system_id = $request['system_id'];
+        $asset->asset_id = $request['system_id'];
 
         if($asset->save()){
             return response(json_encode("Asset Updated"),'200')->header('Content-Type','application/json');
