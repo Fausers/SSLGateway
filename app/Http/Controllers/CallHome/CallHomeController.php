@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CallHome;
 
 use App\Http\Controllers\AirLink\AirLinkController;
 use App\Http\Controllers\Controller;
+use App\Imports\AssetImport;
 use App\Jobs\ProcessDevices;
 use App\Models\CallHome;
 use App\Models\CallHome\AssetStatus;
@@ -12,6 +13,7 @@ use App\Models\DataMigrator;
 use App\Models\DevelopmentAssetStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpMqtt\Client\Facades\MQTT;
 
 class CallHomeController extends Controller
@@ -153,5 +155,26 @@ class CallHomeController extends Controller
         $asset->save();
 
         return response(json_encode($response),'200')->header('Content-Type','application/json');
+    }
+
+    public function updateAssetAirLink(Request $request)
+    {
+        $asset = AssetStatus::firstOrNew(
+            ['ip' => $request['ip']]
+        );
+
+        if($asset->save()){
+            return response(json_encode("Asset Updated"),'200')->header('Content-Type','application/json');
+        }else{
+            return response(json_encode("Update Failed"),'400')->header('Content-Type','application/json');
+        }
+    }
+
+     public function addAssetId(Request $request)
+    {
+        $request['file'];
+
+        Excel::import(new AssetImport, $request['file']);
+        return response('Got it')->header('Content-Type','application/json');
     }
 }
