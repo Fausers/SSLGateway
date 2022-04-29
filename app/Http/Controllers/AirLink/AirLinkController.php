@@ -76,7 +76,7 @@ class AirLinkController extends Controller
         $response = Http::withHeaders([
             'X-Authorization' => 'Bearer '.$air_link->token,
             'Content-Type' => 'application/json'
-        ])->post('http://airlink.enaccess.org/api/v1/'.$asset->ip.'/telemetry', $data);
+        ])->post('http://airlink.enaccess.org/api/v1/'.$asset->access_token.'/telemetry', $data);
 
         if ($response->status() == 401 && $count < 2){
             $this->login();
