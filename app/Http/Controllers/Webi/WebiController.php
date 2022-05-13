@@ -10,7 +10,7 @@ class WebiController extends Controller
 {
     public function updateSMS(Request $request)
     {
-        $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/P/records/".$request["weni_id"];
+        $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/P/records/".$request["webi_id"];
 
         $data = [
             'fields'=>[
@@ -21,7 +21,7 @@ class WebiController extends Controller
         return $response = Http::withHeaders([
             'Authorization' => 'Bearer 24f44360-8656-11ec-adbe-11a9b089aec7',
             'Content-Type' => 'application/json'
-        ])->post($url, [
+        ])->put($url, [
             $data
         ]);
     }
