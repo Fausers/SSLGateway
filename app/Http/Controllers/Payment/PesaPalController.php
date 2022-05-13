@@ -28,6 +28,8 @@ class PesaPalController extends Controller
             } else {
                 $jdata['paymentReference'] = "TULI" . $jdata['CUSTOMERREFERENCEID'];
             }
+        }else{
+            $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
         }
 
         //        Check Existence Of account  Redis
