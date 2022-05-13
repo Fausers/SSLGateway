@@ -21,11 +21,15 @@ class PesaPalController extends Controller
         $data = json_encode($payload);
         $jdata =  json_decode($data,true);
 
-        if (strpos($jdata['CUSTOMERREFERENCEID'],"TULI") !== false){
-            $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
-        }else{
-            $jdata['paymentReference'] = "TULI".$jdata['CUSTOMERREFERENCEID'];
+        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $data['MSISDN']);
+        if (strpos($phone,"256") !== false) {
+            if (strpos($jdata['CUSTOMERREFERENCEID'], "TULI") !== false) {
+                $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
+            } else {
+                $jdata['paymentReference'] = "TULI" . $jdata['CUSTOMERREFERENCEID'];
+            }
         }
+
         //        Check Existence Of account  Redis
         $values = PaymentReference::where('payment_reference',$jdata['paymentReference'])->first();
 
@@ -152,5 +156,16 @@ class PesaPalController extends Controller
             $data
         ]);
 
+    }
+
+    public function checkTuli()
+    {
+        if (strpos($jdata['CUSTOMERREFERENCEID'],"TULI") !== false){
+            $tuli = $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
+        }else{
+            $tuli =$jdata['paymentReference'] = "TULI".$jdata['CUSTOMERREFERENCEID'];
+        }
+
+        return  $tuli;
     }
 }
