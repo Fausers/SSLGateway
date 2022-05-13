@@ -21,14 +21,14 @@ class PesaPalController extends Controller
         $data = json_encode($payload);
         $jdata =  json_decode($data,true);
 
-//        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $jdata['MSISDN']);
-//        if (strpos($phone,"256") !== false) {
+        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $jdata['MSISDN']);
+        if (strpos($phone,"256") !== false) {
             if (strpos($jdata['CUSTOMERREFERENCEID'], "TULI") !== false) {
                 $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
             } else {
                 $jdata['paymentReference'] = "TULI" . $jdata['CUSTOMERREFERENCEID'];
             }
-//        }
+        }
 
         //        Check Existence Of account  Redis
         $values = PaymentReference::where('payment_reference',$jdata['paymentReference'])->first();
