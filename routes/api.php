@@ -5,6 +5,7 @@ use App\Http\Controllers\CallHome\CallHomeController;
 use App\Http\Controllers\CallHome\CellIdController;
 use App\Http\Controllers\Payment\PaymentReferenceController;
 use App\Http\Controllers\Payment\PesaPalController;
+use App\Http\Controllers\Webi\WebiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Payment\AirtelController;
@@ -64,7 +65,9 @@ Route::middleware('auth:sanctum')->group(function(){
        Route::post('/create', [PaymentReferenceController::class, 'create'])->name('create');
     });
 
-
+    Route::prefix('webi')->group(function(){
+       Route::post('/update_sms', [WebiController::class, 'updateSMS'])->name('update_sms');
+    });
 });
 
 
