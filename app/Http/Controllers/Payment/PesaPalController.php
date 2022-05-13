@@ -22,7 +22,7 @@ class PesaPalController extends Controller
         $jdata =  json_decode($data,true);
 
 //        $phone = preg_replace('/[^A-Za-z0-9\-]/', '', $jdata['MSISDN']);
-        if (strpos($phone,"256") !== false) {
+//        if (strpos($phone,"256") !== false) {
             if (strpos($jdata['CUSTOMERREFERENCEID'], "TULI") !== false) {
                 $jdata['paymentReference'] = $jdata['CUSTOMERREFERENCEID'];
             } else {
