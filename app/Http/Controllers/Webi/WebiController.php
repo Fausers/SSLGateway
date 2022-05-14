@@ -25,6 +25,6 @@ class WebiController extends Controller
             $data
         ]);
 
-         return $request->status();
+         return $response->status();
     }
 }
