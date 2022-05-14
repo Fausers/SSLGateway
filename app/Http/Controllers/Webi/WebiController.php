@@ -18,11 +18,13 @@ class WebiController extends Controller
             ],
         ];
 
-        return $response = Http::withHeaders([
+         $response = Http::withHeaders([
             'Authorization' => 'Bearer 24f44360-8656-11ec-adbe-11a9b089aec7',
             'Content-Type' => 'application/json'
         ])->put($url, [
             $data
         ]);
+
+         return $request->status();
     }
 }
