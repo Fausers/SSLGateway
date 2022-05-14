@@ -10,7 +10,7 @@ class WebiController extends Controller
 {
     public function updateSMS(Request $request)
     {
-        $url = "https://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/P/records/".$request["webi_id"];
+        $url = "http://api.ninox.com/v1/teams/tBEzT47PPxBqkK3n2/databases/s09bhyujje50/tables/P/records/".$request["webi_id"];
 
         $data = [
             'fields'=>[
